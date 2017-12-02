@@ -10,3 +10,5 @@ test
 .nycrc
 circle.yml
 yarn.lock
+/assets
+/static
