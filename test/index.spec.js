@@ -1,5 +1,5 @@
 import path from 'path';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import transformCode from './transformCode';
 
 function getFixtures(name) {
@@ -14,33 +14,39 @@ describe('index', function () {
 
   it('should replace import statements with uri', function () {
     const result = transformCode(getFixtures('import-image.js'), baseConfig).code;
-    expect(result).to.equal('const test = \'http://cdn.address/assets/path/to/icon.svg\';');
+    expect(result).to.equal('const test = \'http://cdn.address/assets/test/icon.svg\';');
   });
 
   it('should replace import statements with uri and hash of content', function () {
     const config = Object.assign({}, baseConfig, {
-      hash: 1,
-      baseDir: '/'
+      hash: true,
     });
     const result = transformCode(getFixtures('import-uri-hash.js'), config).code;
-    expect(result).to.equal('const test = \'http://cdn.address/icon.svg?57e1ea98\';');
+    expect(result).to.equal('const test = \'http://cdn.address/assets/icon-8e5397281d54f75de5cb6f77d1f4bcc8.svg\';');
   });
 
   it('should replace import statements with uri when base uri and dir not defined', function () {
     const result = transformCode(getFixtures('import-image.js')).code;
-    expect(result).to.equal('const test = \'icon.svg\';');
+    expect(result).to.equal('const test = \'/static/test/icon.svg\';');
   });
 
   it('should replace import statements with uri when base dir not defined', function () {
     const result = transformCode(getFixtures('import-image.js'), {
       baseUri: baseConfig.baseUri
     }).code;
-    expect(result).to.equal('const test = \'http://cdn.address/icon.svg\';');
+    expect(result).to.equal('const test = \'http://cdn.address/static/test/icon.svg\';');
+  });
+
+  it('should replace import statements with base dir for windows path', function () {
+    const result = transformCode(getFixtures('import-image.js'), {
+      baseDir: 'static\\media'
+    }).code;
+    expect(result).to.equal('const test = \'/static/media/test/icon.svg\';');
   });
 
   it('should replace require statements with uri', function () {
     const result = transformCode(getFixtures('require-image.js'), baseConfig).code;
-    expect(result).to.equal('const test = \'http://cdn.address/assets/path/to/icon.svg\';');
+    expect(result).to.equal('const test = \'http://cdn.address/assets/test/icon.svg\';');
   });
 
   it('should do nothing when imports have no extensions', function () {

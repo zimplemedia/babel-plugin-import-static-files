@@ -1,8 +1,9 @@
-import {dirname, extname, resolve} from'path';
+import path, { dirname, extname, resolve } from 'path';
 import transform from './transform';
 
 export const defaultOptions = {
   baseDir: '/static',
+  hash: false,
   extensions: [
     '.gif',
     '.jpeg',
@@ -14,18 +15,22 @@ export const defaultOptions = {
 
 const applyTransform = (p, t, state, value, calleeName) => {
   const ext = extname(value);
-  const options = Object.assign({}, defaultOptions, state.opts);
+  let options = Object.assign({}, defaultOptions, state.opts);
 
 
   if (options.extensions && options.extensions.indexOf(ext) >= 0) {
     const dir = dirname(resolve(state.file.opts.filename));
     const absPath = resolve(dir, value);
 
+    if (options.baseDir) {
+      options.baseDir = options.baseDir.replace(/[\/\\]+/g, path.sep);
+    }
+
     transform(p, t, state, options, absPath, calleeName);
   }
 }
 
-export function transformImportsInline({types: t}) {
+export function transformImportsInline({ types: t }) {
   return {
     visitor: {
       ImportDeclaration(p, state) {

@@ -11,7 +11,8 @@
     "lint": "eslint --ext js src test/**/*.spec.*",
     "test": "cross-env NODE_ENV=test npm run test:run",
     "test:run": "nyc --reporter=text-summary mocha 'test/**/*.spec.js'",
-    "test:watch": "npm run test -- -- --watch"
+    "test:watch": "npm run test -- -- --watch",
+    "build:watch": "npm run build -- --watch"
   },
   "repository": {
     "type": "git",

@@ -9,9 +9,10 @@ Original plugin's functionality is still working.
 
 -   [About](#about)
 -   [Installation](#installation)
+-   [Options](#options)
 -   [Usage](#usage)
     -   [via babelrc](#via-babelrc)
-    -   [via Node API](#via-node-api)
+    -   [via JavaScript](#via-javascript)
 
 ## About
 
@@ -23,7 +24,7 @@ This helps when doing _isomorphic_ / server-rendered applications.
 import image from './path/to/icon.png';
 const image1 = require('./path/to/icon.svg');
 
-// icon.png and icon.svg will be copied to project's root under static folder
+// icon.png and icon.svg will be copied to project's root under baseDir (defaults to "/static") folder
 // and code will be transformed to:
 
 const image = '/static/path/to/icon.png';
@@ -44,6 +45,33 @@ See the spec for more [examples](https://github.com/ahalimkara/babel-plugin-impo
 
 ```
 $> npm install babel-plugin-import-static-files --save
+```
+
+## Options
+
+Default options:
+```json
+{
+  "baseDir": "/static",
+  "hash": false,
+  "extensions": [
+    ".gif",
+    ".jpeg",
+    ".jpg",
+    ".png",
+    ".svg"
+  ]
+}
+```
+
+When hash is true (useful for assets caching):
+```js
+import image from './path/to/icon.png';
+
+// icon.png will be copied to project's root under baseDir (defaults to "/static") folder
+// and code will be transformed to:
+
+const image = '/static/icon-[hash].png';
 ```
 
 ## Usage
@@ -69,7 +97,7 @@ or if you will use cdn
 }
 ```
 
-### via Node API
+### via JavaScript
 
 ```js
 require("babel-core").transform("code", {
