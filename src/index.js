@@ -26,7 +26,7 @@ const applyTransform = (p, t, state, value, calleeName) => {
       options.baseDir = options.baseDir.replace(/[\/\\]+/g, path.sep);
     }
 
-    if(options.srcDir && options.outDir) {
+    if (options.srcDir && options.outDir) {
       const root = state.file.opts.sourceRoot || process.cwd();
       const srcPath = resolve(root, options.srcDir);
       const outPath = resolve(root, options.outDir);
