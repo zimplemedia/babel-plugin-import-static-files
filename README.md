@@ -79,7 +79,7 @@ const image = '/static/icon-[hash].png';
 ### srcDir / outDir
 
 If you are using a compiler like Typescript and compiling your Typescript sources to a
-different location it also needs to get the images from the sort location. Use `srcDir` and `outDir`
+different location it also needs to get the images from the source location. Use `srcDir` and `outDir`
 to control the path replacement. 
 
 ## Usage

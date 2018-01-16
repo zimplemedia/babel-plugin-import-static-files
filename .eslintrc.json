@@ -16,5 +16,13 @@
   },
   "extends": [
     "eslint:recommended"
-  ]
+  ],
+  "globals": {
+    "process": true
+  },
+  "rules": {
+    "semi": ["warn", "never"],
+    "comma-dangle": ["error", "always-multiline"],
+    "no-unused-vars": "warn"
+  }
 }

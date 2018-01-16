@@ -1,1 +1,1 @@
-const test = require('../icon.svg');
+const test = require('../icon.svg')

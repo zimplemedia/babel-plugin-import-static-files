@@ -1,7 +1,7 @@
-import path from 'path';
-import {transformFileSync} from 'babel-core';
+import path from 'path'
+import {transformFileSync} from 'babel-core'
 
-const plugin = path.join(path.resolve(__dirname, '..', 'src'), 'index.js');
+const plugin = path.join(path.resolve(__dirname, '..', 'src'), 'index.js')
 
 const transformCode = (file, config = {}) => {
   const babelOptions = {
@@ -11,7 +11,7 @@ const transformCode = (file, config = {}) => {
       [plugin, config],
     ],
   }
-  return transformFileSync(file, babelOptions);
+  return transformFileSync(file, babelOptions)
 }
 
-export default transformCode;
+export default transformCode
