@@ -61,8 +61,8 @@ Default options:
     ".png",
     ".svg"
   ],
-  "srcDir": ".",
-  "outDir": "."
+  "srcDir": "",
+  "outDir": ""
 }
 ```
 
