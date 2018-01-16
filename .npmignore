@@ -8,6 +8,7 @@ test
 .editorconfig
 .eslintrc.json
 .nycrc
+.nyc_output
 circle.yml
 yarn.lock
 /assets
