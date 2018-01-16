@@ -20,7 +20,6 @@ const applyTransform = (p, t, state, value, calleeName) => {
 
   if (options.extensions && options.extensions.indexOf(ext) >= 0) {
     const dir = dirname(resolve(state.file.opts.filename));
-    const root = state.file.opts.sourceRoot || process.cwd();
     let absPath = resolve(dir, value);
 
     if (options.baseDir) {
@@ -28,6 +27,7 @@ const applyTransform = (p, t, state, value, calleeName) => {
     }
 
     if(options.srcDir && options.outDir) {
+      const root = state.file.opts.sourceRoot || process.cwd();
       const srcPath = resolve(root, options.srcDir);
       const outPath = resolve(root, options.outDir);
       absPath = absPath.replace(outPath, srcPath);
