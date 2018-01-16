@@ -20,10 +20,17 @@ const applyTransform = (p, t, state, value, calleeName) => {
 
   if (options.extensions && options.extensions.indexOf(ext) >= 0) {
     const dir = dirname(resolve(state.file.opts.filename));
-    const absPath = resolve(dir, value);
+    let absPath = resolve(dir, value);
 
     if (options.baseDir) {
       options.baseDir = options.baseDir.replace(/[\/\\]+/g, path.sep);
+    }
+
+    if (options.srcDir && options.outDir) {
+      const root = state.file.opts.sourceRoot || process.cwd();
+      const srcPath = resolve(root, options.srcDir);
+      const outPath = resolve(root, options.outDir);
+      absPath = absPath.replace(outPath, srcPath);
     }
 
     transform(p, t, state, options, absPath, calleeName);

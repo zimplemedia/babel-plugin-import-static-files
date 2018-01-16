@@ -23,7 +23,7 @@ function getFile(state, absPath, opts) {
 
   if (opts.baseDir) {
     file = path.sep + path.join(opts.baseDir, file).replace(/^[\/\\]+/, '')
-    fs.copySync(absPath, path.join(root, file))
+    fs.copySync(absPath, path.join(root, opts.outDir || '', file))
   }
 
   return '/' + file
