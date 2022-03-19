@@ -4,13 +4,15 @@ import transform from './transform';
 export const defaultOptions = {
   baseDir: '/assets',
   publicDir: './public',
-  hash: false,
+  hash: true,
+  enabled: true,
   extensions: ['.gif', '.jpeg', '.jpg', '.png', '.svg'],
 };
 
 const applyTransform = (p, t, state, value, calleeName) => {
   const ext = extname(value);
   let options = Object.assign({}, defaultOptions, state.opts);
+  var originalAbsPath = value;
 
   if (options.extensions && options.extensions.indexOf(ext) >= 0) {
     const dir = dirname(resolve(state.file.opts.filename));
@@ -30,7 +32,7 @@ const applyTransform = (p, t, state, value, calleeName) => {
 
     absPath = resolve(root, options.publicDir, `.${absPath}`);
 
-    transform(p, t, state, options, absPath, calleeName);
+    transform(p, t, state, options, absPath, originalAbsPath, calleeName);
   }
 };
 
