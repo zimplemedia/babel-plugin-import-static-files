@@ -1,63 +1,60 @@
-import path, { dirname, extname, resolve } from 'path'
-import transform from './transform'
+import path, { dirname, extname, resolve } from 'path';
+import transform from './transform';
 
 export const defaultOptions = {
-  baseDir: '/static',
+  baseDir: '/assets',
+  publicDir: './public',
   hash: false,
-  extensions: [
-    '.gif',
-    '.jpeg',
-    '.jpg',
-    '.png',
-    '.svg',
-  ],
-}
+  extensions: ['.gif', '.jpeg', '.jpg', '.png', '.svg'],
+};
 
 const applyTransform = (p, t, state, value, calleeName) => {
-  const ext = extname(value)
-  let options = Object.assign({}, defaultOptions, state.opts)
-
+  const ext = extname(value);
+  let options = Object.assign({}, defaultOptions, state.opts);
 
   if (options.extensions && options.extensions.indexOf(ext) >= 0) {
-    const dir = dirname(resolve(state.file.opts.filename))
-    let absPath = resolve(dir, value)
+    const dir = dirname(resolve(state.file.opts.filename));
+    let absPath = resolve(dir, value);
 
     if (options.baseDir) {
-      options.baseDir = options.baseDir.replace(/[/\\]+/g, path.sep)
+      options.baseDir = options.baseDir.replace(/[/\\]+/g, path.sep);
     }
+
+    const root = state.file.opts.sourceRoot || process.cwd();
 
     if (options.srcDir && options.outDir) {
-      const root = state.file.opts.sourceRoot || process.cwd()
-      const srcPath = resolve(root, options.srcDir)
-      const outPath = resolve(root, options.outDir)
-      absPath = absPath.replace(outPath, srcPath)
+      const srcPath = resolve(root, options.srcDir);
+      const outPath = resolve(root, options.outDir);
+      absPath = absPath.replace(outPath, srcPath);
     }
 
-    transform(p, t, state, options, absPath, calleeName)
+    absPath = resolve(root, options.publicDir, `.${absPath}`);
+
+    transform(p, t, state, options, absPath, calleeName);
   }
-}
+};
 
 export function transformImportsInline({ types: t }) {
   return {
     visitor: {
       ImportDeclaration(p, state) {
-        applyTransform(p, t, state, p.node.source.value, 'import')
+        applyTransform(p, t, state, p.node.source.value, 'import');
       },
       CallExpression(p, state) {
-        const callee = p.get('callee')
+        const callee = p.get('callee');
         if (!callee.isIdentifier() || !callee.equals('name', 'require')) {
-          return
+          return;
         }
 
-        const arg = p.get('arguments')[0]
+        const arg = p.get('arguments')[0];
         if (!arg || !arg.isStringLiteral()) {
-          return
+          return;
         }
 
-        applyTransform(p, t, state, arg.node.value, 'require')
+        applyTransform(p, t, state, arg.node.value, 'require');
       },
     },
-  }
+  };
 }
 
-export default transformImportsInline
+export default transformImportsInline;

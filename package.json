@@ -1,6 +1,6 @@
 {
-  "name": "babel-plugin-import-static-files",
-  "version": "1.0.4",
+  "name": "@zimplemedia/babel-plugin-import-static-files",
+  "version": "1.0.0",
   "description": "Transforms static files import and copy files to /static folder for next.js applications.",
   "main": "lib/index.js",
   "scripts": {
@@ -14,10 +14,6 @@
     "test:watch": "npm run test -- -- --watch",
     "build:watch": "npm run build -- --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ahalimkara/babel-plugin-import-static-files.git"
-  },
   "keywords": [
     "nextjs",
     "babel",
@@ -27,12 +23,14 @@
     "cdn",
     "isomorphic"
   ],
-  "author": "Abdulhalim Kara <ahalimkara@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ahalimkara/babel-plugin-import-static-files/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zimplemedia/babel-plugin-import-static-files"
   },
-  "homepage": "https://github.com/ahalimkara/babel-plugin-import-static-files#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "author": "Tanomsak Khacharoen <tanomsak@renthub.in.th>",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-eslint": "^8.0.0",
