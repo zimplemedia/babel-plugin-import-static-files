@@ -1,9 +1,13 @@
 import path, { dirname, extname, resolve } from 'path';
 import transform from './transform';
 
+// cdnUri eg. cdn.example.com
+// baseUri eg. the domain you serve the web. eg. www.example.com, example.com
+
 export const defaultOptions = {
   baseDir: '/assets',
   publicDir: './public',
+  cdnUri: null,
   hash: true,
   enabled: true,
   extensions: ['.gif', '.jpeg', '.jpg', '.png', '.svg'],
@@ -31,6 +35,14 @@ const applyTransform = (p, t, state, value, calleeName) => {
     }
 
     absPath = resolve(root, options.publicDir, `.${absPath}`);
+
+    // hack to serve svg sprite from the same domain as the web. because the svg-sprite only work on same domain, not cdn.
+    // https://css-tricks.com/svg-sprites-use-better-icon-fonts
+    // https://stackoverflow.com/questions/32850536/cross-domain-svg-sprite
+
+    if (absPath.indexOf('.svg') === -1) {
+      options.baseUri = options.cdnUri;
+    }
 
     transform(p, t, state, options, absPath, originalAbsPath, calleeName);
   }
